@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Password Management Methodology</title>
+    <!-- Color Palette: Brilliant Blues (Tailwind, Chart.js) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+            color: #343A40;
+            min-height: 100vh;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+        .header-gradient {
+            background: linear-gradient(90deg, #00A6ED, #7FBA00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .kpi-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        .step-icon {
+            font-size: 2.5rem;
+            color: #00A6ED;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-16 pt-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 header-gradient">
+                Visual Guide: Secure Password Management
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto">
+                Translating security policy into practice: Implementing the NIST Methodology with KeePass.
+            </p>
+            <div class="mt-4 text-md text-gray-500">
+                <p>Research and Methodology by: <span class="font-semibold text-[#F25022]">Daniel P Pedreira</span></p>
+                <p>Affiliation: <span class="text-gray-500">Personal Portfolio</span></p>
+            </div>
+        </header>
+
+        <!-- SECTION 1: THE PROBLEM AND PARADIGM SHIFT -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                1. The Danger of Weak Credentials
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="card text-center bg-[#F25022]/10 border-l-4 border-[#F25022]">
+                    <p class="text-lg text-gray-500 mb-1">Breaches linked to stolen credentials</p>
+                    <div class="kpi-number text-[#F25022]">80%+</div>
+                    <p class="text-sm font-semibold text-gray-600">Driven by Credential Stuffing and weak passwords.</p>
+                </div>
+                <div class="card text-center bg-[#00A6ED]/10 border-l-4 border-[#00A6ED]">
+                    <p class="text-lg text-gray-500 mb-1">Time to crack an 8-character password (no lowercase)</p>
+                    <div class="kpi-number text-[#00A6ED]">2h</div>
+                    <p class="text-sm font-semibold text-gray-600">Average time via Brute Force (Source: Hive Systems 2024).</p>
+                </div>
+                <div class="card text-center bg-[#7FBA00]/10 border-l-4 border-[#7FBA00]">
+                    <p class="text-lg text-gray-500 mb-1">Impact of Modern Policies (NIST)</p>
+                    <div class="kpi-number text-[#7FBA00]">14+</div>
+                    <p class="text-sm font-semibold text-gray-600">Characters (Recommended minimum). Uniqueness is key.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="card">
+                    <h3 class="text-xl font-semibold mb-4 text-[#F25022]">Threat Focus: Credential Reuse</h3>
+                    <p class="text-gray-700 mb-4">The biggest vulnerability is not complexity, but **password reuse**. A leak on a small website compromises all accounts using the same credential (Credential Stuffing).</p>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-1">
+                        <li>Focus: **Uniqueness** of credentials.</li>
+                        <li>Solution: **Password Managers** to create and store long, random passwords.</li>
+                    </ul>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="riscoAtaqueChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MODERN PASSWORD POLICY (NIST) -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                2. Password Policy: Old vs. New Paradigm (NIST)
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- OLD MODEL -->
+                <div class="card border-t-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3 text-red-600">❌ Old/Failed Model</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-3">
+                        <li>**Forced Rotation (Every 90 days):** Useless. Leads users to make small, predictable changes (e.g., `Password2024!` to `Password2025!`).</li>
+                        <li>**Excessive Complexity Requirements:** Forces the use of special characters. Increases frustration without significantly boosting entropy.</li>
+                        <li>**Acceptable Reuse:** Lack of tools to enforce uniqueness, leading to reuse.</li>
+                    </ul>
+                    <p class="mt-4 text-sm text-red-500">Result: Easily guessable passwords and high user frustration.</p>
+                </div>
+
+                <!-- MODERN MODEL -->
+                <div class="card border-t-4 border-[#7FBA00]">
+                    <h3 class="text-2xl font-bold mb-3 text-[#7FBA00]">✅ Modern Model (NIST-Based)</h3>
+                    <ul class="list-disc list-inside text-gray-700 space-y-3">
+                        <li>**Priority on Length:** Minimum of **14 characters** (preferably longer). Length is the key security factor.</li>
+                        <li>**No Forced Rotation:** Changing is only mandatory **after a confirmed leak** (Compromise).</li>
+                        <li>**Use of Passphrase:** Encourages long phrases (e.g., `ILoveSecurityWithKeePass2025!`) instead of short, complex words.</li>
+                    </ul>
+                    <p class="mt-4 text-sm text-[#7FBA00]">Result: More secure passwords, fewer unnecessary changes, and higher adherence.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KEEPASS IMPLEMENTATION GUIDE -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                3. Practical Use Guide: Implementing with KeePass
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Step 1 -->
+                <div class="card text-center transition duration-300 hover:shadow-xl">
+                    <div class="step-icon mx-auto mb-4">1️⃣</div>
+                    <h3 class="text-xl font-bold text-[#00A6ED] mb-2">Master Key Creation</h3>
+                    <p class="text-gray-600 text-sm">The **only** password you must memorize. Must be a long Passphrase (18+ characters), using the first letter of each word in an easy-to-remember phrase, with numbers/symbols. This password protects your entire vault.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="card text-center transition duration-300 hover:shadow-xl">
+                    <div class="step-icon mx-auto mb-4">2️⃣</div>
+                    <h3 class="text-xl font-bold text-[#00A6ED] mb-2">Structure and Organization</h3>
+                    <p class="text-gray-600 text-sm">Organize your entries into logical groups (e.g., `Finance/`, `Work/VPN Access`, `Personal/Streaming`). A clear structure facilitates vault maintenance and auditing.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="card text-center transition duration-300 hover:shadow-xl">
+                    <div class="step-icon mx-auto mb-4">3️⃣</div>
+                    <h3 class="text-xl font-bold text-[#00A6ED] mb-2">High Entropy Generation</h3>
+                    <p class="text-gray-600 text-sm">Always use the built-in **Password Generator** in KeePass. Set the minimum to 14-16 characters, mixing letters, numbers, and symbols. Ensure every password is completely random and unique.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="card text-center transition duration-300 hover:shadow-xl">
+                    <div class="step-icon mx-auto mb-4">4️⃣</div>
+                    <h3 class="text-xl font-bold text-[#00A6ED] mb-2">Secure Usage (Auto-Type)</h3>
+                    <p class="text-gray-600 text-sm">Never copy the password to the clipboard. Use the **Auto-Type** feature (`Ctrl+Alt+A` or similar). This types the password directly into the field, preventing credential exposure in your history.</p>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="card text-center transition duration-300 hover:shadow-xl">
+                    <div class="step-icon mx-auto mb-4">5️⃣</div>
+                    <h3 class="text-xl font-bold text-[#00A6ED] mb-2">Encrypted Backup</h3>
+                    <p class="text-gray-600 text-sm">The `.kdbx` file is your most critical asset. Back it up to a secure location (e.g., encrypted OneDrive or external drive). Keeping secure copies ensures data recovery after failure.</p>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="card text-center transition duration-300 hover:shadow-xl">
+                    <div class="step-icon mx-auto mb-4">6️⃣</div>
+                    <h3 class="text-xl font-bold text-[#00A6ED] mb-2">Multi-Factor (MFA)</h3>
+                    <p class="text-gray-600 text-sm">For the vault and critical accounts, enable MFA (e.g., TOTP). KeePassXC can store TOTP, but use a separate application (like Google Authenticator) for KeePass itself, if greater isolation is desired.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER AND RESOURCES -->
+        <footer class="text-center mt-20 pt-8 border-t border-gray-300">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Additional Resources</h3>
+            <div class="flex flex-wrap justify-center gap-4 text-center text-sm font-semibold">
+                <a href="#" class="text-white bg-[#00A6ED] hover:bg-[#007BBF] py-2 px-4 rounded-full transition duration-300">
+                    Full Details: Loss and Attacks
+                </a>
+                <a href="#" class="text-white bg-[#7FBA00] hover:bg-[#5C8900] py-2 px-4 rounded-full transition duration-300">
+                    Detailed Password Policy
+                </a>
+                <a href="#" class="text-white bg-[#F25022] hover:bg-[#B73C19] py-2 px-4 rounded-full transition duration-300">
+                    KeePass Use and Configuration Guide
+                </a>
+            </div>
+            <p class="mt-6 text-sm text-gray-500">This methodology is based on NIST SP 800-63B guidelines and credential vulnerability research. Licensed under the MIT License.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function initCharts() {
+            // Color mapping for Brilliant Blues palette
+            const colors = {
+                leakage: '#F25022',
+                reuse: '#FFB900',
+                bruteforce: '#00A6ED',
+            };
+
+            // Data for the Risk Chart (Doughnut)
+            new Chart(document.getElementById('riscoAtaqueChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Credential Reuse', 'Data Leakage (Victim)', 'Brute Force/Dictionary'],
+                    datasets: [{
+                        label: 'Credential Risk Factors',
+                        data: [55, 30, 15], // 55% reuse, 30% leakage, 15% brute force
+                        backgroundColor: [colors.reuse, colors.leakage, colors.bruteforce],
+                        borderColor: '#FFFFFF',
+                        borderWidth: 4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    cutout: '70%', // Donut size
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                             callbacks: {
+                                title: function(tooltipItems) {
+                                  const item = tooltipItems[0];
+                                  let label = item.chart.data.labels[item.dataIndex];
+                                  if (Array.isArray(label)) {
+                                    return label.join(' ');
+                                  }
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // The most robust way to ensure the chart script runs after all elements are loaded
+        window.addEventListener('load', function() {
+            if (document.getElementById('riscoAtaqueChart')) {
+                initCharts();
+            }
+        });
+    </script>
+
+</body>
+</html>
